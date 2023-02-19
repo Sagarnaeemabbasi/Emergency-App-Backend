@@ -36,4 +36,4 @@ router.route('/forgotpassword').post(forgotPassword);
 router.route('/resetpassword').post(resetPassword);
 
 
-router.route("/query").post(addQuery)
+router.route("/query").post(IsAuthenticated,addQuery)
