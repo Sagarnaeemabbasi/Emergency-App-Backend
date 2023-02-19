@@ -5,7 +5,7 @@ const addQuery = async (req, res) => {
   try {
     const {longitude, latitude, latitudeDelta, longitudeDelta, query} =
       req.body;
-    if (!longitude || !latitude || query) {
+    if (!longitude || !latitude || !query) {
       return res.status(400).json({
         message: `Kindly Add the required fields`,
         status: false,
