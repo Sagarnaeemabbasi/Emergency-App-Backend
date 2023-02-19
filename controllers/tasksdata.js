@@ -1,27 +1,31 @@
+import Query from '../models/Query.js';
 import user from '../models/user.js';
 
-const addTasks = async (req, res) => {
+const addQuery = async (req, res) => {
   try {
-    const {title, description} = req.body;
-    if (!title || !description) {
+    const {longitude, latitude, latitudeDelta, longitudeDelta, query} =
+      req.body;
+    if (!longitude || !latitude || query) {
       return res.status(400).json({
-        message: `Kindly Add the title and description`,
+        message: `Kindly Add the required fields`,
         status: false,
       });
     }
     const userOne = await user.findById(req.user._id);
-
-    await userOne.tasks.push({
-      title,
-      description,
-      createdAt: new Date(Date.now()).toISOString().slice(0, 10),
-      completed: false,
-    });
-
-    await userOne.save();
+    const obj_to_sent = {
+      query_name: query,
+      coordinates: {
+        longitude,
+        latitude,
+        longitude_delta: longitudeDelta,
+        latitude_delta: latitudeDelta,
+      },
+    };
+    const queryOne = await Query.create(obj_to_sent);
     res.status(200).json({
-      message: 'Add Successfully',
+      message: 'Your Querry has Been Sent',
       status: true,
+      query: queryOne,
     });
   } catch (error) {
     res.status(400).json({
@@ -86,4 +90,4 @@ const deleteTask = async (req, res) => {
     });
   }
 };
-export {updateTask, deleteTask, addTasks};
+export {updateTask, deleteTask, addQuery};

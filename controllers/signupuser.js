@@ -3,8 +3,8 @@ import {sendToken} from '../Utils/sendToken.js';
 
 export const signupUser = async (req, res) => {
   try {
-    const {name, email, password} = req.body;
-    if (!name || !email || !password) {
+    const {name, email, password, role} = req.body;
+    if (!name || !email || !password || role) {
       res.status(400).json({
         message: 'kindly fill all the fields',
         status: false,
@@ -30,6 +30,7 @@ export const signupUser = async (req, res) => {
     const otp = Math.floor(Math.random() * 100000);
 
     const obj_to_sent = {
+      role,
       name,
       email,
       password,
@@ -41,12 +42,7 @@ export const signupUser = async (req, res) => {
 
     userOne = await user.create(obj_to_sent);
 
-    sendToken(
-      res,
-      userOne,
-      201,
-      'Your otp is send and and your are signUp Successfully',
-    );
+    sendToken(res, userOne, 201, 'SignUp Successfully');
   } catch (error) {
     res.status(400).json({
       message: `${error}`,

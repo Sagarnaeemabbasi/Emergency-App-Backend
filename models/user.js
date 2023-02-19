@@ -2,45 +2,46 @@ import mongoose from 'mongoose';
 import jwt from 'jsonwebtoken';
 import bcrypt from 'bcrypt';
 
-const userSchema = new mongoose.Schema(
-  {
-    name: {
-      type: String,
-      required: true,
+const userSchema = new mongoose.Schema({
+  name: {
+    type: String,
+    required: true,
+  },
+  email: {
+    type: String,
+    required: true,
+    unique: true,
+  },
+  password: {
+    type: String,
+    required: true,
+    minLength: [8, 'Password must be 8 characters long'],
+  },
+  createdAt: {
+    type: Date,
+    default: Date.now(),
+  },
+  role: {
+    type: String, // may be admin or simple
+  },
+  tasks: [
+    {
+      title: String,
+      description: String,
+      createdAt: Date,
+      completed: Boolean,
     },
-    email: {
-      type: String,
-      required: true,
-      unique: true,
-    },
-    password: {
-      type: String,
-      required: true,
-      minLength: [8, 'Password must be 8 characters long'],
-    },
-    createdAt: {
-      type: Date,
-      default: Date.now(),
-    },
-    tasks: [
-      {
-        title: String,
-        description: String,
-        createdAt: Date,
-        completed: Boolean,
-      },
-    ],
-    verified: {
-      type: Boolean,
-      default: false,
-    },
+  ],
+  verified: {
+    type: Boolean,
+    default: false,
+  },
 
-    otp: Number,
-    otp_expiry: Date,
-    resetPasswordOtp: Number,
-    resetPasswordOtpExpiry: Date,
-  }
-);
+  otp: Number,
+  otp_expiry: Date,
+  resetPasswordOtp: Number,
+  resetPasswordOtpExpiry: Date,
+});
 
 userSchema.pre('save', async function (next) {
   if (!this.isModified('password')) return next();

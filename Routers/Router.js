@@ -1,7 +1,7 @@
 import express from 'express';
 import {getMyProfile, loginuser, logout, VerfiyUser} from '../controllers/loginuser.js';
 import {signupUser} from '../controllers/signupuser.js';
-import {addTasks, deleteTask, updateTask} from '../controllers/tasksdata.js';
+import {addQuery, deleteTask, updateTask} from '../controllers/tasksdata.js';
 import {
   forgotPassword,
   resetPassword,
@@ -25,7 +25,6 @@ router
   .route('/Task/:id')
   .put(IsAuthenticated, updateTask)
   .delete(IsAuthenticated, deleteTask);
-router.route('/addTask').post(IsAuthenticated, addTasks);
 
 // Updates Routes
 
@@ -35,3 +34,6 @@ router.route('/getprofile').get(IsAuthenticated, getMyProfile);
 router.route('/updatepassword').put(IsAuthenticated, updatePassword);
 router.route('/forgotpassword').post(forgotPassword);
 router.route('/resetpassword').post(resetPassword);
+
+
+router.route("/query").post(IsAuthenticated,addQuery)
