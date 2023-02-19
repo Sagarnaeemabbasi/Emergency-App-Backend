@@ -17,8 +17,8 @@ const addQuery = async (req, res) => {
       coordinates: {
         longitude,
         latitude,
-        longitude_delta: longitudeDelta,
-        latitude_delta: latitudeDelta,
+        longitude_delta: longitudeDelta || 0.0121,
+        latitude_delta: latitudeDelta || 0.015,
       },
     };
     const queryOne = await Query.create(obj_to_sent);
